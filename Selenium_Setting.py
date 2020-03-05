@@ -40,8 +40,8 @@ options.add_experimental_option("prefs",prefs)
 #geckodriver_path = "/Users/Shared/geckodriver"
 #ChromeDriverのパスを引数に指定しChromeを起動
 
-driver = webdriver.Chrome(options=options)
-#driver = webdriver.Chrome("./chromedriver")
+#driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome()
 
 DownloadPass = './Downloads'
 ####################
@@ -74,7 +74,7 @@ element = driver.find_element_by_id("form1:login")
 element.click()
 print("login")
 try:
-    element = driver.find_element_by_id("form1:linkPortal")
+    element = driver.find_element_by_id("form1:linkPortal").click()
 except Exception:
     login = 1
 # ログイン処理終了
