@@ -1,7 +1,8 @@
 #Directory
 __pycache__/
 Downloads
-
+.vscode
+.DS_Store
 pass
 Setup*
 *.csv

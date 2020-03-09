@@ -50,6 +50,14 @@ def syllabus():
     ss.syllabus(subName)
     label["text"]=""
 
+def promotion():
+    label["text"]="Now processing..."
+    can_promotion = ss.promotion()
+    if can_promotion == True:
+        label["text"]="進級できます"
+    else :
+        label["text"]="進級できません"
+
 def Quit():
     ss.Quit()
     #label["text"]="ログアウトしました アプリを終了してください"
@@ -60,7 +68,6 @@ def Error_Null():
 
 def succeed():
     label["text"]="授業資料をダウンロードしました"
-
 
 
 
@@ -196,7 +203,9 @@ shirabasu = tkinter.Button(Frame2, text="シラバス",command=syllabus,height =
 
 shirabasu.grid(row=0,column=2)
 
+shinkyu = tkinter.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
 
+shinkyu.grid(row=0,column=3)
 
 # ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
 fin = tkinter.Button(root, text="終了", command=Quit)

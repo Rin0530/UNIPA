@@ -40,8 +40,8 @@ options.add_experimental_option("prefs",prefs)
 #geckodriver_path = "/Users/Shared/geckodriver"
 #ChromeDriverのパスを引数に指定しChromeを起動
 
-#driver = webdriver.Chrome(options=options)
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=options)
+#driver = webdriver.Chrome()
 
 DownloadPass = './Downloads'
 ####################
@@ -151,6 +151,58 @@ def syllabus(subName):
     os.system("open "+subName+"_syllabus.png")
     os.system("mv *.png ./Downloads")
     
+def promotion():
+    grade = []
+    min_IsOK = []
+    min_Limit = 0
+    count = 0
+    total = 0
+    # 成績照会ページに移動
+    element = driver.find_element_by_id("menu3").click()
+    element = driver.find_element_by_id("menuimg3-1").click()
+    Grade = driver.find_element_by_id("form1:htmlGakunen").text
+    # 共通教養取得数
+    element = driver.find_element_by_xpath("//td[2]/table/tbody/tr[5]/td")
+    grade.append(float(element.text))
+    min_IsOK.append(float(element.text) > 13)
+    # 外国語取得数
+    element = driver.find_element_by_xpath("//tr[5]/td[6]")
+    grade.append(float(element.text))
+    min_IsOK.append(float(element.text) > 12)
+    # 第二外国語取得数
+    element = driver.find_element_by_xpath("//tr[5]/td[12]")
+    min_IsOK.append(float(element.text) > 2)
+    # 専門、基礎科目取得数
+    element = driver.find_element_by_xpath("//tr[20]/td[2]/table/tbody/tr[5]/td[2]")
+    grade.append(float(element.text))
+    min_IsOK.append(float(element.text) > 9)
+    # 専門、専門科目取得数数
+    element = driver.find_element_by_xpath("//tr[20]/td[2]/table/tbody/tr[5]/td[7]")
+    grade.append(float(element.text))
+    hoge = float(element.text)
+    # 他コ開講
+    element = driver.find_element_by_xpath("//tr[22]/td[2]/table/tbody/tr[5]/td[2]")
+    grade.append(float(element.text))
+    hogehoge = float(element.text)
+    if hogehoge > 12:
+        hogehoge = 12
+    min_IsOK.append(hoge+hogehoge >67)
+
+    # 学年毎に処理を分岐
+    if Grade == "3年":          # 3年の進級判定
+        for score in min_IsOK:
+            if score == False:
+                return False
+    if Grade == "1年":          # 1年の進級判定 
+        min_Limit = 24
+        count = 3
+    elif Grade == "2年":        # 2年の進級判定
+        min_Limit = 58
+        count = 4
+    for score in grade:
+        total += score  
+        if total > min_Limit:
+            return True
 
 def Quit():
     ##############
