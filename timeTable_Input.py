@@ -15,16 +15,20 @@ root.title("timeTableInput")
 root.geometry("1200x600")
 
 def Confirm_Pass():
-    root = Path("./pass")
+    root = Path("./.pass")
     key = "pqAjk53FQqVQid7"
     hex_src1 = XOR.crypto_text_to_hex(pass_Box1.get(),key)
     hex_src2 = XOR.crypto_text_to_hex(pass_Box2.get(),key)
     if root.is_file():
-        os.system("rm pass")
-    os.system("echo "+hex_src1+" >> pass")
-    os.system("echo "+hex_src2+" >> pass")
+        os.remove(".pass")
+    os.system("echo "+hex_src1+" >> .pass")
+    os.system("echo "+hex_src2+" >> .pass")
+    fin_Label["text"]="ID,パスワードを保存しました"
 
 def Confirm_TimeTable():
+    root = Path(".timeTable.csv")
+    if root.is_file():
+        os.remove()
     tt = []
     tt.append(Mon_1.get())
     tt.append(Mon_2.get())
@@ -62,10 +66,10 @@ def Confirm_TimeTable():
     tt.append(Sat_4.get())
     tt.append(Sat_5.get())
     tt.append(Sat_6.get())
-    with open("./timeTable.csv","w",encoding="utf-8") as f:
+    with open("./.timeTable.csv","w",encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(tt)
-    
+    fin_Label["text"]="時間割の書き込みを保存しました"
 
 
 
@@ -211,5 +215,8 @@ Botan.grid(row = 0,column = 0)
 
 Button =tkinter.Button(Frame3,height = 2,width = 13,text="パスワード書き込み",command=Confirm_Pass)
 Button.grid(row = 0,column = 1)
+
+fin_Label = tkinter.Label(root)
+fin_Label.grid()
 
 root.mainloop()

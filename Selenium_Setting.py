@@ -16,7 +16,7 @@ login = 0
 # パスワード復号
 
 try:
-    fp = open("pass","r")
+    fp = open(".pass","r")
     temp = fp.readlines() 
     fp.close()
 except Exception:

@@ -174,12 +174,20 @@ timetable = [
     ]
 
 #data = pd.read_csv("timeTable.csv").values.tolist()
-
-with open("timeTable.csv", "r", encoding="utf-8") as f:
-    reader = csv.reader(f) # readerオブジェクトの作成
-    for r in reader: # for文を用いて一行ずつ読み込む
-        data = r
-
+try:
+    with open(".timeTable.csv", "r", encoding="utf-8") as f:
+        reader = csv.reader(f) # readerオブジェクトの作成
+        for r in reader: # for文を用いて一行ずつ読み込む
+            data = r
+except Exception:
+    data = [
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","",""
+        ]  
 
 for button in timetable:
     button["text"]=data[count]
