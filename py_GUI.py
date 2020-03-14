@@ -50,6 +50,14 @@ def syllabus():
     ss.syllabus(subName)
     label["text"]=""
 
+def promotion():
+    label["text"]="Now processing..."
+    can_promotion = ss.promotion()
+    if can_promotion == True:
+        label["text"]="進級できます"
+    else :
+        label["text"]="進級できません"
+
 def Quit():
     ss.Quit()
     #label["text"]="ログアウトしました アプリを終了してください"
@@ -63,7 +71,6 @@ def succeed():
 
 
 
-
 # ウィンドウ立ち上げ
 #--------------------------------
 
@@ -74,7 +81,7 @@ root = tkinter.Tk()
 root.title("UNIPA_Instance")
 
 # ウィンドウの大きさを設定
-root.geometry("1200x1200")
+root.geometry("1600x1200")
 
 
 
@@ -167,12 +174,20 @@ timetable = [
     ]
 
 #data = pd.read_csv("timeTable.csv").values.tolist()
-
-with open("timeTable.csv", "r", encoding="utf-8") as f:
-    reader = csv.reader(f) # readerオブジェクトの作成
-    for r in reader: # for文を用いて一行ずつ読み込む
-        data = r
-
+try:
+    with open("timeTable.csv", "r", encoding="utf-8") as f:
+        reader = csv.reader(f) # readerオブジェクトの作成
+        for r in reader: # for文を用いて一行ずつ読み込む
+            data = r
+except Exception:
+    data = [
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","","",
+        "","","","","",""
+        ]  
 
 for button in timetable:
     button["text"]=data[count]
@@ -196,7 +211,9 @@ shirabasu = tkinter.Button(Frame2, text="シラバス",command=syllabus,height =
 
 shirabasu.grid(row=0,column=2)
 
+shinkyu = tkinter.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
 
+shinkyu.grid(row=0,column=3)
 
 # ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
 fin = tkinter.Button(root, text="終了", command=Quit)
