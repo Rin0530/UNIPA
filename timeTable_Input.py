@@ -16,7 +16,7 @@ root.geometry("1200x600")
 
 def Confirm_Pass():
     root = Path("./.pass")
-    key = "pqAjk53FQqVQid7"
+    key = XOR.createKey()
     hex_src1 = XOR.crypto_text_to_hex(pass_Box1.get(),key)
     hex_src2 = XOR.crypto_text_to_hex(pass_Box2.get(),key)
     if root.is_file():
@@ -28,7 +28,7 @@ def Confirm_Pass():
 def Confirm_TimeTable():
     root = Path(".timeTable.csv")
     if root.is_file():
-        os.remove()
+        os.remove(".timeTable.csv")
     tt = []
     tt.append(Mon_1.get())
     tt.append(Mon_2.get())

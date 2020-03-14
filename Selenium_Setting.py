@@ -10,13 +10,13 @@ import XOR
 import sys
 import chromedriver_binary
 
-key = "pqAjk53FQqVQid7"
+key = XOR.createKey()
 login = 0
 
 # パスワード復号
 
 try:
-    fp = open(".pass","r")
+    fp = open("config","r")
     temp = fp.readlines() 
     fp.close()
 except Exception:

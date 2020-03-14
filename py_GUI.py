@@ -81,7 +81,7 @@ root = tkinter.Tk()
 root.title("UNIPA_Instance")
 
 # ウィンドウの大きさを設定
-root.geometry("1200x1200")
+root.geometry("1600x1200")
 
 
 
@@ -175,7 +175,7 @@ timetable = [
 
 #data = pd.read_csv("timeTable.csv").values.tolist()
 try:
-    with open(".timeTable.csv", "r", encoding="utf-8") as f:
+    with open("timeTable.csv", "r", encoding="utf-8") as f:
         reader = csv.reader(f) # readerオブジェクトの作成
         for r in reader: # for文を用いて一行ずつ読み込む
             data = r
