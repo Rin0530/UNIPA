@@ -15,14 +15,14 @@ root.title("timeTableInput")
 root.geometry("1200x600")
 
 def Confirm_Pass():
-    root = Path("./.pass")
+    root = Path("./config")
     key = XOR.createKey()
     hex_src1 = XOR.crypto_text_to_hex(pass_Box1.get(),key)
     hex_src2 = XOR.crypto_text_to_hex(pass_Box2.get(),key)
     if root.is_file():
-        os.remove(".pass")
-    os.system("echo "+hex_src1+" >> .pass")
-    os.system("echo "+hex_src2+" >> .pass")
+        os.remove("config")
+    os.system("echo "+hex_src1+" >> config")
+    os.system("echo "+hex_src2+" >> config")
     fin_Label["text"]="ID,パスワードを保存しました"
 
 def Confirm_TimeTable():

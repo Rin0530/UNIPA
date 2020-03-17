@@ -16,7 +16,7 @@ subName = ""
 week = 0
 
 
-# 最新授業資料ダウンロード
+# 曜日と科目名をセット
 def clicked(kurasu,youbi):
     global subName 
     global week
@@ -24,6 +24,7 @@ def clicked(kurasu,youbi):
     week = youbi
     class_name["text"]=kurasu
 
+# 最新授業資料ダウンロード
 def materials():
     global subName 
     global week
@@ -66,8 +67,6 @@ def Quit():
 def Error_Null():
     tkinter.messagebox.showinfo("Error","科目名を選択してください")
 
-def succeed():
-    label["text"]="授業資料をダウンロードしました"
 
 
 
@@ -179,6 +178,7 @@ try:
         reader = csv.reader(f) # readerオブジェクトの作成
         for r in reader: # for文を用いて一行ずつ読み込む
             data = r
+# timeTable.csvが見つからなかった時は全て空白で埋める
 except Exception:
     data = [
         "","","","","","",
@@ -191,7 +191,6 @@ except Exception:
 
 for button in timetable:
     button["text"]=data[count]
-    #button["command"] = lambda:clicked(button["text"],j)
     button.grid(row = i+1,column = j)
     i = i+1
     count=count+1

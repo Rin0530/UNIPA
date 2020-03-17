@@ -5,9 +5,37 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.common.alert import Alert
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import Select
+import chromedriver_binary
 import csv
 import os
+import sys
+from pathlib import Path
+import XOR
 
+args = sys.argv
+if len(args) != 3:
+    print("引数は2つ入力してください")
+    print("第一引数はID,第二引数はパスワードです")
+    sys.exit(0)
+
+##############################
+# timeTable.csvをリセット
+root = Path(".timeTable.csv")
+if root.is_file():
+    os.remove(".timeTable.csv")
+##############################
+
+##############################
+# ID,パスワードをセット
+root = Path("./config")
+key = XOR.createKey()
+hex_src1 = XOR.crypto_text_to_hex(args[1],key)
+hex_src2 = XOR.crypto_text_to_hex(args[2],key)
+if root.is_file():
+    os.remove("config")
+os.system("echo "+hex_src1+" >> config")
+os.system("echo "+hex_src2+" >> config")
+##############################
 
 ##############################
 # Selenium初期設定
@@ -23,24 +51,43 @@ options.add_experimental_option("prefs",prefs)
 #geckodriver_path = "/Users/Shared/geckodriver"
 #ChromeDriverのパスを引数に指定しChromeを起動
 
-#driver = webdriver.Chrome("/Users/Shared/chromedriver", options=options)
-driver = webdriver.Chrome("/Users/Shared/chromedriver")
+#driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome()
 # Selenium初期設定ここまで
 ############################
 
 
+############################
+# パスワード復号
+try:
+    fp = open("config","r")
+    temp = fp.readlines() 
+    fp.close()
+except Exception:
+    print("パスワードが設定されていません")
+    sys.exit(0)
+dec_src1 = temp[0].rstrip()
+dec_src2 = temp[1].rstrip()
+dec_src1 = XOR.decrypto_hex_to_text(dec_src1,key)
+dec_src2 = XOR.decrypto_hex_to_text(dec_src2,key)
+############################
 
 ##############################
 # ログイン処理
 driver.get("https://unipa.itp.kindai.ac.jp/up/faces/login/Com00501A.jsp")
 print("UNIPAopen")
 element = driver.find_element_by_id("form1:htmlUserId")
-element.send_keys("1910370050r")
+element.send_keys(dec_src1)
 element = driver.find_element_by_id("form1:htmlPassword")
-element.send_keys("kjRyekXDRw5d")
+element.send_keys(dec_src2)
 element = driver.find_element_by_id("form1:login")
 element.click()
 print("login")
+try:
+    element = driver.find_element_by_id("form1:linkPortal").click()
+except Exception:
+    print("ID,またはパスワードが間違っています")
+    sys.exit(0)
 # ログイン処理ここまで
 ##############################
 
@@ -49,14 +96,33 @@ print("login")
 
 ##############################
 # 時間割取得
+
 timeTable = []
-i = 0
-driver.get("https://unipa.itp.kindai.ac.jp/up/faces/up/km/Kma00203A.jsp#")
-element = driver.find_element_by_class_name("selectOneMenu")
-select_Display = Select(element)
-select_Display.select_by_value("1")
-element = driver.find_element_by_id("form1:search")
+element = driver.find_element_by_id("menuc2").click()
+element = driver.find_element_by_id("menuimg2-1").click()
+
+for i in range(6):
+    for j in range(6):
+        element = driver.find_element_by_id("form1:calendarList:"+str(i)+":rowVal0"+str(j+1))
+        class_name = element.text
+        index = class_name.find("【")
+        class_name = class_name[:index]
+        timeTable.append(class_name.strip())
+
+with open("./timeTable.csv","w",encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(timeTable)
+
+ ##############
+#ログアウト処理
+element = driver.find_element_by_xpath(
+        "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[5]/a/img")
 element.click()
+print("logout")
+##############
+#ドライバーを閉じる
+driver.quit()
+"""
 os.system("sleep 1")
 try:
     for i in range(20):
@@ -70,3 +136,4 @@ except Exception as identifier:
         element = driver.find_element_by_xpath(
             "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[5]/a/img")
         element.click()
+"""
