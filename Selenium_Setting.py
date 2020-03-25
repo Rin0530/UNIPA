@@ -76,7 +76,9 @@ print("login")
 try:
     element = driver.find_element_by_id("form1:linkPortal").click()
 except Exception:
-    login = 1
+    print("IDもしくはパスワードが間違っています")
+    driver.close()
+    sys.exit(1)
 # ログイン処理終了
 ####################
 
