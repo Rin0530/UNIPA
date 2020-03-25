@@ -7,7 +7,7 @@ import tkinter.messagebox
 import os
 import csv
 import sys
-
+import atexit
 
 i = 0
 j = 0
@@ -234,3 +234,7 @@ label.grid(row=3,column=0)
 
 # イベントループ（TK上のイベントを捕捉し、適切な処理を呼び出すイベントディスパッチャ）
 root.mainloop()
+
+
+# ウインドウを閉じるときにログアウト
+atexit.register(Quit)
