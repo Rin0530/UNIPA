@@ -7,7 +7,7 @@ import tkinter.messagebox
 import os
 import csv
 import sys
-
+import atexit
 
 i = 0
 j = 0
@@ -66,8 +66,6 @@ def Quit():
 
 def Error_Null():
     tkinter.messagebox.showinfo("Error","科目名を選択してください")
-
-
 
 
 # ウィンドウ立ち上げ
@@ -233,3 +231,5 @@ label.grid(row=3,column=0)
 
 # イベントループ（TK上のイベントを捕捉し、適切な処理を呼び出すイベントディスパッチャ）
 root.mainloop()
+
+atexit.register(Quit)
