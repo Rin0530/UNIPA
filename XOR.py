@@ -11,8 +11,6 @@ def crypto_text_to_hex(src_text, key):
         # keyが短い場合は、繰り返して必要バイト数を準備する
         while len(src_text) > len(xor_code):
             xor_code += key
-        if os.name == "nt":
-            xor_code = xor_code.hex()
         return "".join([chr(ord(data) ^ ord(code))
                         for (data, code) in zip(src_text, xor_code)]).encode().hex()
 
@@ -31,8 +29,6 @@ def decrypto_hex_to_text(hex_text, key):
             # keyが短い場合は、繰り返して必要バイト数を準備する
             while len(crypt_data) > len(xor_code):
                 xor_code += key
-            if os.name == "nt":
-                xor_code = xor_code.hex()
             return "".join([chr(ord(data) ^ ord(code))
                             for (data, code) in zip(crypt_data, xor_code)])
 
