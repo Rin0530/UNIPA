@@ -1,3 +1,4 @@
+# coding: utf-8
 import tkinter
 import os
 import csv

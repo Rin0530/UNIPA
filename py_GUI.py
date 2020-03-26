@@ -1,3 +1,4 @@
+# coding: utf-8
 # Seleniumのインポート
 import Selenium_Setting as ss
 # Tkinterモジュールのインポート
@@ -232,4 +233,6 @@ label.grid(row=3,column=0)
 # イベントループ（TK上のイベントを捕捉し、適切な処理を呼び出すイベントディスパッチャ）
 root.mainloop()
 
+
+# ウインドウを閉じるときにログアウト
 atexit.register(Quit)

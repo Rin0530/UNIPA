@@ -1,10 +1,6 @@
+# coding: utf-8
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.alert import Alert
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import Select
 import chromedriver_binary
 import csv
 import os
@@ -51,8 +47,8 @@ options.add_experimental_option("prefs",prefs)
 #geckodriver_path = "/Users/Shared/geckodriver"
 #ChromeDriverのパスを引数に指定しChromeを起動
 
-#driver = webdriver.Chrome(options=options)
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=options)
+#driver = webdriver.Chrome()
 # Selenium初期設定ここまで
 ############################
 
@@ -122,18 +118,3 @@ print("logout")
 ##############
 #ドライバーを閉じる
 driver.quit()
-"""
-os.system("sleep 1")
-try:
-    for i in range(20):
-        element =  driver.find_element_by_id("form1:standardJugyoTimeSchedule00List:"+str(i)+":rowVal000002")
-        timeTable.append(element.text)
-
-except Exception as identifier:
-    with open("./timeTable.csv","w") as f:
-        writer = csv.writer(f)
-        writer.writerow(timeTable)
-        element = driver.find_element_by_xpath(
-            "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[5]/a/img")
-        element.click()
-"""

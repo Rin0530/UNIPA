@@ -1,10 +1,7 @@
+# coding: utf-8
 # Seleniumモジュール&etcのインポート
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.alert import Alert
-from selenium.common.exceptions import TimeoutException
 import os
 import XOR
 import sys
@@ -76,7 +73,7 @@ print("login")
 try:
     element = driver.find_element_by_id("form1:linkPortal").click()
 except Exception:
-    print("ID,もしくはパスワードが間違っています")
+    print("IDもしくはパスワードが間違っています")
     driver.close()
     sys.exit(1)
 # ログイン処理終了
