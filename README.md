@@ -15,6 +15,8 @@ timeTable_Import.py,timeTable_Input.pyは初回もしくは時間割、パスワ
 
 timeTable_Import.pyは第一引数にUNIPAのID、第二引数にパスワードを入れて実行して下さい
 
+↑2度目以降でID,パスワードが変更されていない場合は引数無しで実行できるように変更しました
+
 普通に使う場合はpy_GUI.pyを実行して下さい
 
-Windows10対応しました(多分) ← NEW
+Windows10対応しました(多分)
