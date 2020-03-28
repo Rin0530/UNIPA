@@ -18,7 +18,7 @@ try:
     fp.close()
 except Exception:
     print("パスワードが設定されていません")
-    sys.exit(0)
+    sys.exit(1)
 dec_src1 = temp[0].rstrip()
 dec_src2 = temp[1].rstrip()
 dec_src1 = XOR.decrypto_hex_to_text(dec_src1,key)

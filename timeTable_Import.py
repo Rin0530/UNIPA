@@ -9,29 +9,32 @@ from pathlib import Path
 import XOR
 
 args = sys.argv
-if len(args) != 3:
+key = XOR.createKey()
+
+if len(args) == 3:
+    ##############################
+    # timeTable.csvをリセット
+    root = Path("./timeTable.csv")
+    if root.is_file():
+        os.remove("./timeTable.csv")
+    ##############################
+
+    ##############################
+    # ID,パスワードをセット
+    root = Path("./config")
+    hex_src1 = XOR.crypto_text_to_hex(args[1],key)
+    hex_src2 = XOR.crypto_text_to_hex(args[2],key)
+    if root.is_file():
+        os.remove("./config")
+    os.system("echo "+hex_src1+" >> config")
+    os.system("echo "+hex_src2+" >> config")
+    ##############################
+elif len(args) != 1:
     print("引数は2つ入力してください")
     print("第一引数はID,第二引数はパスワードです")
     sys.exit(0)
 
-##############################
-# timeTable.csvをリセット
-root = Path(".timeTable.csv")
-if root.is_file():
-    os.remove(".timeTable.csv")
-##############################
 
-##############################
-# ID,パスワードをセット
-root = Path("./config")
-key = XOR.createKey()
-hex_src1 = XOR.crypto_text_to_hex(args[1],key)
-hex_src2 = XOR.crypto_text_to_hex(args[2],key)
-if root.is_file():
-    os.remove("config")
-os.system("echo "+hex_src1+" >> config")
-os.system("echo "+hex_src2+" >> config")
-##############################
 
 ##############################
 # Selenium初期設定
