@@ -135,6 +135,43 @@ def syllabus(subName):
     handle_array = driver.window_handles
     # seleniumで操作可能なdriverを切り替える
     driver.switch_to.window(handle_array[1])
+    ##########################################
+    """ウインドウを新たに作る場合"""
+    syllabusList = []
+    # 科目名をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[2]/td")
+    syllabusList.append("科目名 "+element.text)
+    # 単位数をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[5]/td[2]")
+    syllabusList.append("単位数 "+element.text)
+    # 科目区分をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[8]/td")
+    syllabusList.append("科目区分 " +element.text)
+    # 必修選択の別をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[9]/td")
+    syllabusList.append("必修選択の別 "+element.text)
+    # 成績評価方法および基準をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[18]/td")
+    syllabusList.append("成績評価方法および基準 "+element.text)
+    # オフィスアワーをリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[25]/td")
+    syllabusList.append("オフィスアワー "+element.text)
+
+    # 授業計画をリストに追加
+    element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[26]/td")
+    syllabusList.append("授業計画 "+element.text)
+
+    # 元のウインドウに戻る
+    driver.close()
+    driver.switch_to.window(handle_array[0])
+    element = driver.find_element_by_xpath(
+        "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[2]/a/img").click()
+
+    return syllabusList
+    ##########################################
+
+    """
+    スクショをとる場合 
     # ウインドウサイズ取得&変更
     page_width = driver.execute_script('return document.body.scrollWidth')
     page_height = driver.execute_script('return document.body.scrollHeight')
@@ -143,13 +180,15 @@ def syllabus(subName):
     # スクショ取得
     driver.save_screenshot(subName+'_syllabus.png')
     driver.close()
+    
     # 元のウインドウに戻る
     driver.switch_to.window(handle_array[0])
     element = driver.find_element_by_xpath(
         "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[2]/a/img").click()
-    os.system("open "+subName+"_syllabus.png")
-    os.system("mv *.png ./Downloads")
-    
+    #os.system("open "+subName+"_syllabus.png")
+    #os.system("mv *.png ./Downloads")
+    """
+
 def promotion():
     grade = []
     min_IsOK = []
@@ -172,15 +211,15 @@ def promotion():
     element = driver.find_element_by_xpath("//tr[5]/td[12]")
     min_IsOK.append(float(element.text) > 2)
     # 専門、基礎科目取得数
-    element = driver.find_element_by_xpath("//tr[20]/td[2]/table/tbody/tr[5]/td[2]")
+    element = driver.find_element_by_xpath("//tr[29]/td[2]/table/tbody/tr[5]/td[2]")
     grade.append(float(element.text))
     min_IsOK.append(float(element.text) > 9)
     # 専門、専門科目取得数数
-    element = driver.find_element_by_xpath("//tr[20]/td[2]/table/tbody/tr[5]/td[7]")
+    element = driver.find_element_by_xpath("//tr[29]/td[2]/table/tbody/tr[7]/td[7]")
     grade.append(float(element.text))
     hoge = float(element.text)
     # 他コ開講
-    element = driver.find_element_by_xpath("//tr[22]/td[2]/table/tbody/tr[5]/td[2]")
+    element = driver.find_element_by_xpath("//tr[31]/td[2]/table/tbody/tr[5]/td[2]")
     grade.append(float(element.text))
     hogehoge = float(element.text)
     if hogehoge > 12:

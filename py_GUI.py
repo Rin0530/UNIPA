@@ -2,7 +2,7 @@
 # Seleniumのインポート
 import Selenium_Setting as ss
 # Tkinterモジュールのインポート
-import tkinter
+import tkinter as tk
 import tkinter.messagebox
 # その他etcのインポート
 import os
@@ -49,8 +49,9 @@ def syllabus():
         Error_Null()
         return
     label["text"]="Now processing..."
-    ss.syllabus(subName)
+    syllabusList = ss.syllabus(subName)
     label["text"]=""
+    CreateNewWindow(syllabusList)
 
 def promotion():
     label["text"]="Now processing..."
@@ -66,14 +67,57 @@ def Quit():
     sys.exit(0)
 
 def Error_Null():
-    tkinter.messagebox.showinfo("Error","科目名を選択してください")
+    tk.messagebox.showinfo("Error","科目名を選択してください")
 
+def CreateNewWindow(List):
+    newWindow = tk.Toplevel(root)
+    #newWindow.geometry("800x1200")
+    newWindow.minsize(800,400)
+    canvas = tk.Canvas(newWindow)
+    #canvas["height"]=2500
+
+    scrollbar_y = tk.Scrollbar(newWindow,orient=tk.VERTICAL,command=canvas.yview)
+    scrollbar_x = tk.Scrollbar(newWindow,orient=tk.HORIZONTAL,command=canvas.xview)
+    frame = tk.Frame(canvas)
+
+    canvas.create_window((0,0), window=frame, anchor=tk.NW)
+    #canvas.config(yscrollcommand=scrollbar.set)
+    canvas["yscrollcommand"]=scrollbar_y.set
+    canvas["xscrollcommand"]=scrollbar_x.set
+    #canvas.config(scrollregion=canvas.bbox("all"))
+    canvas["scrollregion"]=(0,0,2000,2500)
+    canvas.update_idletasks()
+
+    canvas.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+    scrollbar_y.pack(fill=tk.Y, side=tk.RIGHT)
+    scrollbar_x.pack(fill=tk.X,side=tk.BOTTOM)
+
+    classLabel = tk.Label(frame,text=List[0])
+    classLabel.pack()
+
+    numOfUnitsLabel = tk.Label(frame,text=List[1])
+    numOfUnitsLabel.pack()
+
+    subjectCategoryLabel = tk.Label(frame,text=List[2])
+    subjectCategoryLabel.pack()
+
+    isNecessaryLabel = tk.Label(frame,text=List[3])
+    isNecessaryLabel.pack()
+
+    gradingMethodAndStandardLabel = tk.Label(frame,text=List[4])
+    gradingMethodAndStandardLabel.pack()
+
+    officehour = tk.Label(frame,text=List[5])
+    officehour.pack()
+
+    classPlanLabel = tk.Label(frame,text=List[6])
+    classPlanLabel.pack()
 
 # ウィンドウ立ち上げ
 #--------------------------------
 
 # ウィンドウ（フレーム）の作成
-root = tkinter.Tk()
+root = tk.Tk()
 
 # ウィンドウの名前を設定
 root.title("UNIPA_Instance")
@@ -84,82 +128,82 @@ root.geometry("1600x1200")
 
 
 
-Frame1 = tkinter.Frame(root, height = 400, width = 400, relief='sunken',borderwidth=5)
+Frame1 = tk.Frame(root, height = 400, width = 400, relief='sunken',borderwidth=5)
 
 Frame1.grid()
 
-Frame2 = tkinter.Frame(root, relief='sunken',borderwidth=5)
+Frame2 = tk.Frame(root, relief='sunken',borderwidth=5)
 
 Frame2.grid()
 
 ###################################
 # 各曜日を示すラベル表示
-label_Mon = tkinter.Label(Frame1,text="月曜日",)
+label_Mon = tk.Label(Frame1,text="月曜日",)
 label_Mon.grid(row = 0,column = 0)
 
-label_Tue = tkinter.Label(Frame1,text="火曜日")
+label_Tue = tk.Label(Frame1,text="火曜日")
 label_Tue.grid(row = 0,column = 1)
 
-label_Wed = tkinter.Label(Frame1,text="水曜日")
+label_Wed = tk.Label(Frame1,text="水曜日")
 label_Wed.grid(row = 0,column = 2)
 
-label_Thu = tkinter.Label(Frame1,text="木曜日")
+label_Thu = tk.Label(Frame1,text="木曜日")
 label_Thu.grid(row = 0,column = 3)
 
-label_Fri = tkinter.Label(Frame1,text="金曜日")
+label_Fri = tk.Label(Frame1,text="金曜日")
 label_Fri.grid(row = 0,column = 4)
 
-label_Sta = tkinter.Label(Frame1,text="土曜日")
+label_Sta = tk.Label(Frame1,text="土曜日")
 label_Sta.grid(row = 0,column = 5)
 #####################################
 
 # 月曜日時間割    
-Mon_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_1["text"],0))
-Mon_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_2["text"],0))
-Mon_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_3["text"],0))
-Mon_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_4["text"],0))
-Mon_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_5["text"],0))
-Mon_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_6["text"],0))
+Mon_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_1["text"],0))
+Mon_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_2["text"],0))
+Mon_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_3["text"],0))
+Mon_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_4["text"],0))
+Mon_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_5["text"],0))
+Mon_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Mon_6["text"],0))
 
 # 火曜日時間割
-Tue_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_1["text"],1))
-Tue_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_2["text"],1))
-Tue_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_3["text"],1))
-Tue_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_4["text"],1))
-Tue_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_5["text"],1))
-Tue_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_6["text"],1))
+Tue_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_1["text"],1))
+Tue_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_2["text"],1))
+Tue_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_3["text"],1))
+Tue_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_4["text"],1))
+Tue_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_5["text"],1))
+Tue_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Tue_6["text"],1))
 
 # 水曜日時間割
-Wed_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_1["text"],2))
-Wed_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_2["text"],2))
-Wed_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_3["text"],2))
-Wed_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_4["text"],2))
-Wed_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_5["text"],2))
-Wed_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_6["text"],2))
+Wed_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_1["text"],2))
+Wed_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_2["text"],2))
+Wed_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_3["text"],2))
+Wed_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_4["text"],2))
+Wed_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_5["text"],2))
+Wed_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Wed_6["text"],2))
 
 # 木曜日時間割
-Thu_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_1["text"],3))
-Thu_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_2["text"],3))
-Thu_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_3["text"],3))
-Thu_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_4["text"],3))
-Thu_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_5["text"],3))
-Thu_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_6["text"],3))
+Thu_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_1["text"],3))
+Thu_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_2["text"],3))
+Thu_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_3["text"],3))
+Thu_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_4["text"],3))
+Thu_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_5["text"],3))
+Thu_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Thu_6["text"],3))
 
 # 金曜日時間割
-Fri_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_1["text"],4))
-Fri_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_2["text"],4))
-Fri_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_3["text"],4))
-Fri_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_4["text"],4))
-Fri_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_5["text"],4))
-Fri_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_6,4))
+Fri_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_1["text"],4))
+Fri_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_2["text"],4))
+Fri_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_3["text"],4))
+Fri_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_4["text"],4))
+Fri_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_5["text"],4))
+Fri_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Fri_6,4))
 
 # 土曜日時間割
-Sat_1 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_1["text"],5))
-Sat_2 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_2["text"],5))
-Sat_3 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_3["text"],5))
-Sat_4 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_4["text"],5))
-Sat_5 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_5["text"],5))
-Sat_6 = tkinter.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_6["text"],5))
+Sat_1 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_1["text"],5))
+Sat_2 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_2["text"],5))
+Sat_3 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_3["text"],5))
+Sat_4 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_4["text"],5))
+Sat_5 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_5["text"],5))
+Sat_6 = tk.Button(Frame1,height = 5,width = 20,command=lambda:clicked(Sat_6["text"],5))
 
 
 timetable = [
@@ -197,24 +241,24 @@ for button in timetable:
         i = 0
         j = j+1
 
-class_name = tkinter.Label(Frame2,height = 2,width = 20)
+class_name = tk.Label(Frame2,height = 2,width = 20)
 
 class_name.grid(row=0,column=0)
 
-jugyoSiryo = tkinter.Button(Frame2,text="授業資料",command=materials,height = 2,width = 20)
+jugyoSiryo = tk.Button(Frame2,text="授業資料",command=materials,height = 2,width = 20)
 
 jugyoSiryo.grid(row=0,column=1)
 
-shirabasu = tkinter.Button(Frame2, text="シラバス",command=syllabus,height = 2,width = 20)
+shirabasu = tk.Button(Frame2, text="シラバス",command=syllabus,height = 2,width = 20)
 
 shirabasu.grid(row=0,column=2)
 
-shinkyu = tkinter.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
+shinkyu = tk.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
 
 shinkyu.grid(row=0,column=3)
 
 # ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
-fin = tkinter.Button(root, text="終了", command=Quit)
+fin = tk.Button(root, text="終了", command=Quit)
 
 # ボタンの表示
 fin.grid(row=2,column=0)
@@ -222,7 +266,7 @@ fin.grid(row=2,column=0)
 
 
 #　ラベルの作製
-label = tkinter.Label(root,height=2,width=40)
+label = tk.Label(root,height=2,width=40)
 #if ss.login == 1:
 #    label["text"] = "UNIPAのログインに失敗しました\nIDとパスワードの入力をやり直してください"
 
