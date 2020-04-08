@@ -5,7 +5,6 @@ import Selenium_Setting as ss
 import tkinter as tk
 import tkinter.messagebox
 # その他etcのインポート
-import os
 import csv
 import sys
 import atexit
@@ -48,22 +47,21 @@ def syllabus():
     if subName == "":
         Error_Null()
         return
-    label["text"]="Now processing..."
     syllabusList = ss.syllabus(subName)
-    label["text"]=""
     CreateNewWindow(syllabusList)
 
 def promotion():
-    label["text"]="Now processing..."
     can_promotion = ss.promotion()
-    if can_promotion == True:
+    if can_promotion == 0:
         label["text"]="進級できます"
-    else :
+    elif can_promotion == 1 :
         label["text"]="進級できません"
+    elif can_promotion == 2:
+        label["text"]=("成績の取得に失敗しました\n不具合報告して下さい")
+
 
 def Quit():
     ss.Quit()
-    #label["text"]="ログアウトしました アプリを終了してください"
     sys.exit(0)
 
 def Error_Null():
