@@ -2,6 +2,7 @@
 # Seleniumモジュール&etcのインポート
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from pathlib import Path
 import os
 import XOR
 import sys
@@ -71,7 +72,7 @@ element = driver.find_element_by_id("form1:login")
 element.click()
 print("login")
 try:
-    element = driver.find_element_by_id("form1:linkPortal").click()
+    element = driver.find_element_by_id("form1:linkPortal")
 except Exception:
     print("IDもしくはパスワードが間違っています")
     driver.close()
@@ -134,9 +135,14 @@ def syllabus(subName):
 
     handle_array = driver.window_handles
     # seleniumで操作可能なdriverを切り替える
-    driver.switch_to.window(handle_array[1])
+    try:
+        driver.switch_to.window(handle_array[1])
+    except Exception:
+        syllabus(subName)
+    
+    
     ##########################################
-    """ウインドウを新たに作る場合"""
+    """ウインドウを新たに作る場合
     syllabusList = []
     # 科目名をリストに追加
     element = driver.find_element_by_xpath("/html/body/div/div/form/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/table/tbody/tr/td/table/tbody/tr[2]/td")
@@ -167,27 +173,26 @@ def syllabus(subName):
     element = driver.find_element_by_xpath(
         "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[2]/a/img").click()
 
-    return syllabusList
+    return syllabusList"""
     ##########################################
 
-    """
-    スクショをとる場合 
+    ##########################################
+    #スクショをとる場合 
     # ウインドウサイズ取得&変更
     page_width = driver.execute_script('return document.body.scrollWidth')
     page_height = driver.execute_script('return document.body.scrollHeight')
     driver.set_window_size(page_width, page_height)
     os.system("sleep 3")
     # スクショ取得
-    driver.save_screenshot(subName+'_syllabus.png')
+    driver.save_screenshot('./Downloads/syllabus.png')
     driver.close()
     
     # 元のウインドウに戻る
     driver.switch_to.window(handle_array[0])
     element = driver.find_element_by_xpath(
         "//div[@id='account']/table/tbody/tr[2]/td/table/tbody/tr/td[2]/a/img").click()
-    #os.system("open "+subName+"_syllabus.png")
-    #os.system("mv *.png ./Downloads")
-    """
+    ##########################################
+
 
 def promotion():
     grade = []

@@ -8,12 +8,14 @@ import tkinter.messagebox
 import csv
 import sys
 import atexit
+import os
 
 i = 0
 j = 0
 count=0
 subName = ""
 week = 0
+img = None
 
 
 # 曜日と科目名をセット
@@ -47,8 +49,10 @@ def syllabus():
     if subName == "":
         Error_Null()
         return
-    syllabusList = ss.syllabus(subName)
-    CreateNewWindow(syllabusList)
+
+    # シラバスをスクショしてウインドウに表示
+    ss.syllabus(subName)
+    CreateNewWindow()
 
 def promotion():
     can_promotion = ss.promotion()
@@ -59,57 +63,38 @@ def promotion():
     elif can_promotion == 2:
         label["text"]=("成績の取得に失敗しました\n不具合報告して下さい")
 
-
-def Quit():
-    ss.Quit()
-    sys.exit(0)
-
-def Error_Null():
-    tk.messagebox.showinfo("Error","科目名を選択してください")
-
-def CreateNewWindow(List):
+def CreateNewWindow():  
     newWindow = tk.Toplevel(root)
     #newWindow.geometry("800x1200")
     newWindow.minsize(800,400)
-    canvas = tk.Canvas(newWindow)
-    #canvas["height"]=2500
+
+    # 画像を表示するための準備
+    global img
+    img = tk.PhotoImage(file='Downloads/syllabus.png')
+    canvas = tk.Canvas(newWindow,width=img.width(),height=img.height(),bg="white")
+    canvas.create_image(0,0,image=img,anchor=tkinter.NW)
 
     scrollbar_y = tk.Scrollbar(newWindow,orient=tk.VERTICAL,command=canvas.yview)
-    scrollbar_x = tk.Scrollbar(newWindow,orient=tk.HORIZONTAL,command=canvas.xview)
     frame = tk.Frame(canvas)
 
-    canvas.create_window((0,0), window=frame, anchor=tk.NW)
-    #canvas.config(yscrollcommand=scrollbar.set)
+    # スクロールバー設定
+    #canvas.create_window((0,0), window=frame, anchor=tk.NW, image=canvas.photo)
     canvas["yscrollcommand"]=scrollbar_y.set
-    canvas["xscrollcommand"]=scrollbar_x.set
     #canvas.config(scrollregion=canvas.bbox("all"))
-    canvas["scrollregion"]=(0,0,2000,2500)
+    canvas["scrollregion"]=(0,0,0,img.height())
     canvas.update_idletasks()
 
     canvas.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
     scrollbar_y.pack(fill=tk.Y, side=tk.RIGHT)
-    scrollbar_x.pack(fill=tk.X,side=tk.BOTTOM)
 
-    classLabel = tk.Label(frame,text=List[0])
-    classLabel.pack()
+def Error_Null():
+    tk.messagebox.showinfo("Error","科目名を選択してください")
 
-    numOfUnitsLabel = tk.Label(frame,text=List[1])
-    numOfUnitsLabel.pack()
+def Quit():
+    ss.Quit()
+    sys.exit(0)
+    os.remove("./Downloads/syllabus.png")
 
-    subjectCategoryLabel = tk.Label(frame,text=List[2])
-    subjectCategoryLabel.pack()
-
-    isNecessaryLabel = tk.Label(frame,text=List[3])
-    isNecessaryLabel.pack()
-
-    gradingMethodAndStandardLabel = tk.Label(frame,text=List[4])
-    gradingMethodAndStandardLabel.pack()
-
-    officehour = tk.Label(frame,text=List[5])
-    officehour.pack()
-
-    classPlanLabel = tk.Label(frame,text=List[6])
-    classPlanLabel.pack()
 
 # ウィンドウ立ち上げ
 #--------------------------------
