@@ -9,7 +9,7 @@ Google Chrome 80.0.3987.149
 必ず最初に  
 "pip install selenium"  
 "pip install chromedriver-binary==80.0.3987.106.0"  
-を実行して下さい.(括弧内は自分の環境に合わせて下さい)
+を実行して下さい.
 
 'python -c "import tkinter;print(tkinter.TkVersion)"'  
 を実行して8.5以下だった場合は[このリンク先](https://qiita.com/person0/items/4a8d4bf490510e8f71ab)を参考に  
