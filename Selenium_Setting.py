@@ -205,6 +205,7 @@ def promotion():
         element = driver.find_element_by_id("menu3").click()
         element = driver.find_element_by_partial_link_text("成績照会").click()
         Grade = driver.find_element_by_id("form1:htmlGakunen").text
+        XPathNum = int(Grade[0])
         # 共通教養取得数
         element = driver.find_element_by_xpath("//td[2]/table/tbody/tr[5]/td")
         grade.append(float(element.text))
@@ -217,15 +218,15 @@ def promotion():
         element = driver.find_element_by_xpath("//tr[5]/td[12]")
         min_IsOK.append(float(element.text) > 2)
         # 専門、基礎科目取得数
-        element = driver.find_element_by_xpath("//tr[29]/td[2]/table/tbody/tr[5]/td[2]")
+        element = driver.find_element_by_xpath("//tr["+ str(11+XPathNum*9) +"]/td[2]/table/tbody/tr[5]/td[2]")
         grade.append(float(element.text))
         min_IsOK.append(float(element.text) > 9)
         # 専門、専門科目取得数数
-        element = driver.find_element_by_xpath("//tr[29]/td[2]/table/tbody/tr[7]/td[7]")
+        element = driver.find_element_by_xpath("//tr["+ str(11+XPathNum*9) +"]/td[2]/table/tbody/tr[7]/td[7]")
         grade.append(float(element.text))
         hoge = float(element.text)
         # 他コ開講
-        element = driver.find_element_by_xpath("//tr[31]/td[2]/table/tbody/tr[5]/td[2]")
+        element = driver.find_element_by_xpath("//tr["+ str(13+XPathNum*9) +"]/td[2]/table/tbody/tr[5]/td[2]")
         grade.append(float(element.text))
         hogehoge = float(element.text)
 
@@ -237,21 +238,76 @@ def promotion():
     min_IsOK.append(hoge+hogehoge >67)
 
     # 学年毎に処理を分岐
-    if Grade == "3年":          # 3年の進級判定
+    if Grade == "3年":          # 3年の進級判定基準
         for score in min_IsOK:
             if score == False:
+                # 進級不可
                 return 1
-    if Grade == "1年":          # 1年の進級判定 
+    if Grade == "1年":          # 1年の進級判定基準
         min_Limit = 24
         count = 3
-    elif Grade == "2年":        # 2年の進級判定
+    elif Grade == "2年":        # 2年の進級判定基準
         min_Limit = 58
         count = 4
+
+    # 進級判定
     for score in grade:
         total += score  
         if total > min_Limit:
+            # 進級可
             return 0
+        # 進級不可
         return 1
+
+def average(GradeNum):
+    grades = 0
+    count = 0
+    # 成績照会ページに移動
+    element = driver.find_element_by_id("menu3").click()
+    element = driver.find_element_by_partial_link_text("成績照会").click()
+    Grade = driver.find_element_by_id("form1:htmlGakunen").text
+
+    if(GradeNum == 1):
+        try:
+            element = driver.find_element_by_xpath("//tr[29]/td[4]")
+            grades = grades + int(element.text)
+            count = count+1
+            element = driver.find_element_by_xpath("//tr[30]/td[4]")
+            grades = grades + int(element.text)
+            count = count+1
+        except Exception:
+            pass
+
+    # 前期の成績を集計
+    for i in range():
+        try:
+            element = driver.find_element_by_css_selector("tr:nth-child("+str(GradeNum+12)+") tr:nth-child("+ str(i)+ ") > .tdHyokaList")
+            if(element.text == "不受"):
+                continue
+            element = driver.find_element_by_css_selector("tr:nth-child("+str(GradeNum+12)+") tr:nth-child("+ str(i)+ ") > .tdSotenList")
+        except Exception:
+            continue
+        if(element.text == ''):
+            continue
+        grades = grades + int(element.text)
+        count = count+1
+
+    # 後期のお成績を集計
+    for i in range(28):
+        try:
+            element = driver.find_element_by_css_selector("tr:nth-child("+ str(GradeNum+14) +") tr:nth-child("+ str(i)+ ") > .tdHyokaList")
+            if(element.text == "不受"):
+                continue
+            element = driver.find_element_by_css_selector("tr:nth-child("+ str(GradeNum+14) +") tr:nth-child("+ str(i)+ ") > .tdSotenList")
+        except Exception:
+            continue
+        if(element.text == ''):
+            continue
+        grades = grades + int(element.text)
+        count = count+1
+    return grades / float(count)
+    
+
 
 def Quit():
     ##############

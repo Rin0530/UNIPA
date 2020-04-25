@@ -16,6 +16,7 @@ count=0
 subName = ""
 week = 0
 img = None
+ave = 0
 
 
 # 曜日と科目名をセット
@@ -86,6 +87,61 @@ def CreateNewWindow():
 
     canvas.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
     scrollbar_y.pack(fill=tk.Y, side=tk.RIGHT)
+
+def averageSelect():
+    global ave
+    GradeSet = tk.Toplevel(root)
+
+    bool1 = tk.BooleanVar()
+    bool1.set(False)
+    bool2 = tk.BooleanVar()
+    bool2.set(False)
+    bool3 = tk.BooleanVar()
+    bool3.set(False)
+    bool4 = tk.BooleanVar()
+    bool4.set(False)
+
+    first = tk.Checkbutton(GradeSet,text="1年",variable=bool1)
+    first.grid(row = 0,column = 0)
+
+    second = tk.Checkbutton(GradeSet,text="2年",variable=bool2)
+    second.grid(row = 1,column =0)
+
+    third = tk.Checkbutton(GradeSet,text="3年",variable=bool3)
+    third.grid(row = 2,column = 0)
+
+    fourth = tk.Checkbutton(GradeSet,text="4年",variable=bool4)
+    fourth.grid(row = 3,column = 0)
+
+    alartText1 = tk.Label(GradeSet)
+    alartText1["text"] = "平均点を取得したい学年を選択して下さい"
+    alartText1.grid(row = 0,column = 1)
+
+    alartText2 = tk.Label(GradeSet)
+    alartText2["text"] = "選択した全ての学年の平均点を出力します"
+    alartText2.grid(row = 1,column = 1)
+
+    alartText3 = tk.Label(GradeSet)
+    alartText3["text"] = "エラーの原因になるので成績が存在しない学年を選択しないでください"
+    alartText3.grid(row = 2,column = 1)
+
+    chk_bool = [bool1,bool2,bool3,bool4]
+
+    run = tk.Button(GradeSet,text="決定",command=lambda:average(chk_bool,GradeSet))
+    run.grid(row = 4,column = 0)
+
+def average(bool,GradeSet):
+    global ave
+    total = 0
+    count = 0
+    for i in range(len(bool)):
+        if(bool[i].get()):
+            count = count + 1
+    for j in range(count):
+        total =total + ss.average(j+1)
+    ave = total / count
+    label["text"] = "平均点 "+ str(ave) + "点"
+    GradeSet.destroy()
 
 def Error_Null():
     tk.messagebox.showinfo("Error","科目名を選択してください")
@@ -239,6 +295,10 @@ shirabasu.grid(row=0,column=2)
 shinkyu = tk.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
 
 shinkyu.grid(row=0,column=3)
+
+ScoreAve = tk.Button(Frame2, text="平均",command=averageSelect,height=2,width=20)
+
+ScoreAve.grid(row=0,column=4)
 
 # ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
 fin = tk.Button(root, text="終了", command=Quit)
