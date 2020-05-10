@@ -1,14 +1,16 @@
 # coding: utf-8
-# Seleniumのインポート
-import Selenium_Setting as ss
+import sys
 # Tkinterモジュールのインポート
 import tkinter as tk
 import tkinter.messagebox
 # その他etcのインポート
 import csv
-import sys
 import atexit
 import os
+
+if sys.argv[1] != "offline":    
+    # Seleniumのインポート
+    import Selenium_Setting as ss
 
 i = 0
 j = 0
@@ -280,31 +282,32 @@ for button in timetable:
         i = 0
         j = j+1
 
-class_name = tk.Label(Frame2,height = 2,width = 20)
+if sys.argv[1] != "offline": 
+    class_name = tk.Label(Frame2,height = 2,width = 20)
 
-class_name.grid(row=0,column=0)
+    class_name.grid(row=0,column=0)
 
-jugyoSiryo = tk.Button(Frame2,text="授業資料",command=materials,height = 2,width = 20)
+    jugyoSiryo = tk.Button(Frame2,text="授業資料",command=materials,height = 2,width = 20)
 
-jugyoSiryo.grid(row=0,column=1)
+    jugyoSiryo.grid(row=0,column=1)
 
-shirabasu = tk.Button(Frame2, text="シラバス",command=syllabus,height = 2,width = 20)
+    shirabasu = tk.Button(Frame2, text="シラバス",command=syllabus,height = 2,width = 20)
 
-shirabasu.grid(row=0,column=2)
+    shirabasu.grid(row=0,column=2)
 
-shinkyu = tk.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
+    shinkyu = tk.Button(Frame2, text="進級チェック",command=promotion,height = 2,width = 20)
 
-shinkyu.grid(row=0,column=3)
+    shinkyu.grid(row=0,column=3)
 
-ScoreAve = tk.Button(Frame2, text="平均",command=averageSelect,height=2,width=20)
+    ScoreAve = tk.Button(Frame2, text="平均",command=averageSelect,height=2,width=20)
 
-ScoreAve.grid(row=0,column=4)
+    ScoreAve.grid(row=0,column=4)
 
-# ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
-fin = tk.Button(root, text="終了", command=Quit)
+    # ボタンの作成（text=ボタンに表示されるテキスト, command=押下時に呼び出す関数）
+    fin = tk.Button(root, text="終了", command=Quit)
 
-# ボタンの表示
-fin.grid(row=2,column=0)
+    # ボタンの表示
+    fin.grid(row=2,column=0)
 
 
 
@@ -320,6 +323,6 @@ label.grid(row=3,column=0)
 # イベントループ（TK上のイベントを捕捉し、適切な処理を呼び出すイベントディスパッチャ）
 root.mainloop()
 
-
-# ウインドウを閉じるときにログアウト
-atexit.register(Quit)
+if sys.argv[1] != "offline":
+    # ウインドウを閉じるときにログアウト
+    atexit.register(Quit)
