@@ -18,7 +18,8 @@ Google Chrome 80.0.3987.149
 timeTable_Import.py,timeTable_Input.pyは初回もしくは時間割、パスワードが変更になったときに実行して下さい  
 timeTable_Import.pyは第一引数にUNIPAのID、第二引数にパスワードを入れて実行して下さい  
 ↑2度目以降でID,パスワードが変更されていない場合は引数無しで実行できるように変更しました  
-普通に使う場合はpy_GUI.pyを実行して下さい
+普通に使う場合はpy_GUI.pyを実行して下さい  
+pyGUI.pyの引数に offline を付けると時間割を表示するだけになるぶん表示が早いです
 
 Windows10対応しました(多分)
 
