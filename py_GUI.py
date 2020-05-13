@@ -8,7 +8,8 @@ import csv
 import atexit
 import os
 
-if sys.argv[1] != "offline":    
+
+if len(sys.argv) == 1 or sys.argv[1] != "offline":  
     # Seleniumのインポート
     import Selenium_Setting as ss
 
@@ -282,14 +283,15 @@ for button in timetable:
         i = 0
         j = j+1
 
-if sys.argv[1] != "offline": 
+if len(sys.argv) == 1 or sys.argv[1] != "offline": 
+
     class_name = tk.Label(Frame2,height = 2,width = 20)
 
     class_name.grid(row=0,column=0)
 
     jugyoSiryo = tk.Button(Frame2,text="授業資料",command=materials,height = 2,width = 20)
 
-    jugyoSiryo.grid(row=0,column=1)
+    #jugyoSiryo.grid(row=0,column=1)
 
     shirabasu = tk.Button(Frame2, text="シラバス",command=syllabus,height = 2,width = 20)
 
@@ -323,6 +325,7 @@ label.grid(row=3,column=0)
 # イベントループ（TK上のイベントを捕捉し、適切な処理を呼び出すイベントディスパッチャ）
 root.mainloop()
 
-if sys.argv[1] != "offline":
-    # ウインドウを閉じるときにログアウト
-    atexit.register(Quit)
+if len(sys.argv) >= 2:
+    if sys.argv[1] != "offline":
+        # ウインドウを閉じるときにログアウト
+        atexit.register(Quit)
