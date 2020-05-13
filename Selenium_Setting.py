@@ -279,7 +279,7 @@ def average(GradeNum):
             pass
 
     # 前期の成績を集計
-    for i in range():
+    for i in range(28):
         try:
             element = driver.find_element_by_css_selector("tr:nth-child("+str(GradeNum+12)+") tr:nth-child("+ str(i)+ ") > .tdHyokaList")
             if(element.text == "不受"):
